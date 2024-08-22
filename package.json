@@ -1,0 +1,7 @@
+{
+  "name": "template-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Victor Oliveira <ovitor38@gmail.com>",
+  "license": "MIT"
+}
