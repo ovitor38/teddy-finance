@@ -39,5 +39,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "npm": "^10.8.2"
-  }
+  },
+  "prisma": {
+  "schema": "src/infrastructure/database/prisma"
+}
 }
