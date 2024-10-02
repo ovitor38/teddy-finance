@@ -1,23 +1,23 @@
 export class Task {
   id: string
   title: string
-  finhesed: boolean
+  finished: boolean
   userId: string
 
   constructor({
     id,
     title,
-    finhesed,
+    finished,
     userId
   }: {
     id: string
     title: string
-    finhesed: boolean
+    finished: boolean
     userId: string
   }) {
     this.id = id
     this.title = title
-    this.finhesed = finhesed
+    this.finished = finished
     this.userId = userId
   }
 }
