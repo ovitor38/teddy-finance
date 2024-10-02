@@ -1,18 +1,47 @@
-import prisma from '../database/prisma/client';
-import { IUserRepository } from '../../enterprise/repositories/user.repository';
-import { User } from '../../enterprise/entities/user/user.entity';
+import { Prisma } from '@prisma/client'
+import { User } from '../../enterprise/entities/user/user.entity'
+import { IUserRepository } from '../../enterprise/repositories/user.repository'
+import prisma from '../database/prisma/client'
+import { UserResponseDTO } from '../../presentation/dtos/user/user.dto'
 
-export class UserRepository implements IUserRepository {
-  async findById(id: string): Promise<User | null> {
-    const userModel = await prisma.user.findFirst({where:{id}})
+export class PrimsaUserRepository implements IUserRepository {
+  async save(userData: Prisma.UserCreateInput): Promise<UserResponseDTO> {
+    const userModel = await prisma.user.create({
+      data: userData
+    })
 
-
-    if (!userModel) return null;
-    
-    return new User(userModel);
+    return new UserResponseDTO(
+      userModel.id,
+      userModel.name,
+      userModel.email,
+      userModel.createdAt,
+      userModel.updatedAt
+    )
   }
 
-  
+  async update(
+    id: string,
+    userData: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>
+  ): Promise<User> {
+    return await prisma.user.update({
+      where: { id },
+      data: userData
+    })
+  }
 
-  // Outros métodos (delete, update, etc.) podem ser adicionados aqui.
+  async findById(id: string): Promise<UserResponseDTO | null> {
+    const userModel = await prisma.user.findFirst({
+      where: { id }
+    })
+
+    if (!userModel) return null
+
+    return new UserResponseDTO(
+      userModel.id,
+      userModel.name,
+      userModel.email,
+      userModel.createdAt,
+      userModel.updatedAt
+    )
+  }
 }

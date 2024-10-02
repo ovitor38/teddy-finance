@@ -1,7 +1,10 @@
+import { UserResponseDTO } from '../../presentation/dtos/user/user.dto'
 import { User } from '../entities/user/user.entity'
 
 export interface IUserRepository {
-  findById(id: string): Promise<User | null>
-  save(user: User): Promise<void>
-  update(user: User): Promise<void>
+  findById(id: string): Promise<UserResponseDTO | null>
+  save(
+    user: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>
+  ): Promise<UserResponseDTO>
+  update(id: string, user: User): Promise<UserResponseDTO | null>
 }
