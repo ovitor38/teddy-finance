@@ -1,27 +1,31 @@
-// presentation/controllers/UserControllerPresentation.ts
-import { UserResponseDTO } from '../dto/UserResponseDTO'
-import { CreateUserDTO } from '../dtos/user/crete-user.dto'
+import { inject, injectable } from 'tsyringe'
+import { CreateUserRequestDTO } from '../dtos/user/user.dto'
+import { UserService } from '../../enterprise/services/user.service'
 
+@injectable()
 export class UserController {
-  constructor(private readonly createUserService: CreateUserService) {}
+  constructor(
+    @inject('UserService')
+    private readonly userService: UserService
+  ) {}
 
-  async createUser(request: HttpRequest) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async createUser(request: any) {
     try {
       //TODO: VALIDATE DTO WITH ZOD
-      if (!requestIsValid) {
-        throw new Error('Not Valid Reques')
-      }
-      const createUserDto: CreateUserDTO = {
+      // if (!requestIsValid) {
+      // throw new Error('Not Valid Request')
+      // }
+      const createUserDto: CreateUserRequestDTO = {
         name: request.name,
         email: request.email,
         password: request.password
       }
 
-      const user = await this.createUserService.execute(createUserDto)
-      const responseDTO = new UserResponseDTO(user)
-      return { statusCode: 201, data: responseDTO }
+      const user = await this.userService.create(createUserDto)
+      return { statusCode: 201, data: user }
     } catch (error) {
-      return { statusCode: 400, data: { message: error.message } }
+      return { statusCode: 400, data: { messageError: error } }
     }
   }
 }
