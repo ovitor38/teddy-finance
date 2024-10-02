@@ -1,12 +1,13 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express from 'express'
+import 'reflect-metadata'
+import dotenv from 'dotenv'
 import cors from 'cors'
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
+const app = express()
 
 app.use(cors())
-app.use(express.json()); 
+app.use(express.json())
 
-export default app;
+export default app
