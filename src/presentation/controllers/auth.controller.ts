@@ -2,8 +2,8 @@ import { injectable, inject } from 'tsyringe'
 import { UserService } from '../../application/services/user.service'
 import { IAuthService } from '../../application/interfaces/auth.interface'
 import { verifyPassword } from '../../shared/utils/encrypter'
-import { LoginRequestDto} from '../dtos/user/auth.dto'
-import {  IHttpResponse } from '../dtos/user/http.dto'
+import { LoginRequestDto } from '../dtos/user/auth.dto'
+import { IHttpResponse } from '../dtos/user/http.dto'
 
 @injectable()
 export class AuthController {
@@ -12,7 +12,9 @@ export class AuthController {
     @inject('UserService') private userService: UserService
   ) {}
 
-  async login(loginDto: LoginRequestDto): Promise<IHttpResponse<{ message: string, token?: string }>> {
+  async login(
+    loginDto: LoginRequestDto
+  ): Promise<IHttpResponse<{ message: string; token?: string }>> {
     const { email, password } = loginDto
 
     if (!email || !password) {
@@ -24,13 +26,10 @@ export class AuthController {
 
     const user = await this.userService.findByEmail(email)
 
-    if (!user) {
-        return { statusCode: 401, data: { message: 'User Not Found' } }
-      }
-
-    const isPasswordCorrect = await verifyPassword(user?.passwordHashed, password)
-
-    if (!isPasswordCorrect) {
+    if (
+      !user ||
+      !(await verifyPassword(user?.passwordHashed, password))
+    ) {
       return { statusCode: 401, data: { message: 'Invalid email or password' } }
     }
 
