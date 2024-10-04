@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe'
 import { CreateUserRequestDTO } from '../dtos/user/user.dto'
-import { UserService } from '../../enterprise/services/user.service'
+import { UserService } from '../../application/services/user.service'
 
 @injectable()
 export class UserController {
@@ -24,8 +24,9 @@ export class UserController {
 
       const user = await this.userService.create(createUserDto)
       return { statusCode: 201, data: user }
-    } catch (error) {
-      return { statusCode: 400, data: { messageError: error } }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      return { statusCode: 400, data: { messageError: error.message } }
     }
   }
 }

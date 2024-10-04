@@ -16,8 +16,9 @@ export class UserService {
     const passwordHashed = hashPassword(userDto.password)
 
     const userData = {
-      ...userDto,
-      password: passwordHashed
+      name: userDto.name,
+      email: userDto.email,
+      passwordHashed
     }
 
     const user = await this.userRepository.save(userData)
