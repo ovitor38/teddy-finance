@@ -5,6 +5,7 @@ import {
 } from '../../presentation/dtos/user/user.dto'
 import { hashPassword } from '../../shared/utils/encrypter'
 import { IUserRepository } from '../../enterprise/repositories/user.repository'
+import { User } from '../../enterprise/entities/user/user.entity'
 
 @injectable()
 export class UserService {
@@ -13,7 +14,7 @@ export class UserService {
   ) {}
 
   async create(userDto: CreateUserRequestDTO): Promise<UserResponseDTO> {
-    const passwordHashed = hashPassword(userDto.password)
+    const passwordHashed = await hashPassword(userDto.password)
 
     const userData = {
       name: userDto.name,
@@ -22,6 +23,12 @@ export class UserService {
     }
 
     const user = await this.userRepository.save(userData)
+
+    return user
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findByEmail(email)
 
     return user
   }
