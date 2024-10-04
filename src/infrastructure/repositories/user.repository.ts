@@ -44,4 +44,21 @@ export class PrimsaUserRepository implements IUserRepository {
       userModel.updatedAt
     )
   }
+
+  async findByEmail(email: string): Promise<User | null> {
+    const userModel = await prisma.user.findFirst({
+      where: { email }
+    })
+
+    if (!userModel) return null
+
+    return new User(
+      userModel.id,
+      userModel.name,
+      userModel.email,
+      userModel.passwordHashed,
+      userModel.createdAt,
+      userModel.updatedAt
+    )
+  }
 }

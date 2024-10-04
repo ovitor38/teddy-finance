@@ -7,4 +7,5 @@ export interface IUserRepository {
     user: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>
   ): Promise<UserResponseDTO>
   update(id: string, user: User): Promise<UserResponseDTO | null>
+  findByEmail(email: string): Promise<User | null>
 }
