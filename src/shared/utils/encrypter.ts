@@ -1,19 +1,13 @@
-import { createHash, randomBytes } from 'crypto'
+import bcrypt from 'bcrypt'
 
-const secretKey = process.env.SECRET_KEY || ''
-
-export function hashPassword(password: string): string {
-  const hash = createHash('sha256')
-  const salt = randomBytes(16).toString('hex')
-  hash.update(password + salt + secretKey)
-  return hash.digest('hex')
+export async function hashPassword(password: string): Promise<string> {
+  const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
 }
 
-export function verifyPassword(
-  storedPassword: string,
+export async function verifyPassword(
+  hashedPassword: string,
   password: string
-): boolean {
-
-  const hash = hashPassword(password)
-  return hash === storedPassword
+): Promise<boolean> {
+  return await bcrypt.compare(password, hashedPassword);
 }
