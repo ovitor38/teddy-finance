@@ -3,7 +3,7 @@ model User {
   email          String   @unique
   passwordHashed String
   name           String?
-  urls           Url[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime
+  urls           Url[]
 }
