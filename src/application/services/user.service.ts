@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe'
-import { IUserRepository } from '../repositories/user.repository'
 import {
   CreateUserRequestDTO,
   UserResponseDTO
 } from '../../presentation/dtos/user/user.dto'
 import { hashPassword } from '../../shared/utils/encrypter'
+import { IUserRepository } from '../../enterprise/repositories/user.repository'
 
 @injectable()
 export class UserService {

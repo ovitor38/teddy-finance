@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { UserController } from '../../presentation/controllers/user.controller'
+import { UserController } from '../../../presentation/controllers/user.controller'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()

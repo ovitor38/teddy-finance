@@ -1,9 +1,10 @@
 {
-  "name": "template-api",
-  "version": "1.0.0",
+  "name": "teddy-finance-backend",
+  "version": "0.1.0",
   "main": "index.js",
   "author": "Victor Oliveira <ovitor38@gmail.com>",
   "license": "MIT",
+  "engines": {"node": "^20.0.0"},
   "type": "commonjs",
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",
@@ -27,6 +28,7 @@
     "typescript-eslint": "^8.2.0"
   },
   "scripts": {
+    "prisma:migrate": "PRISMA_SCHEMA_PATH=./src/infrastructure/database/prisma/schema.prisma npx prisma migrate dev",
     "lint": "eslint --fix && prettier . --write",
     "start": "ts-node --watch src/index.ts",
     "start:dev": "ts-node-dev --respawn --transpile-only --watch src src/server.ts"

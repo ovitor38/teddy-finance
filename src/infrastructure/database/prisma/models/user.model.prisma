@@ -1,9 +1,9 @@
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  passwordHashed  String
-  name      String?
-  tasks     Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime
+  id             String   @id @default(uuid())
+  email          String   @unique
+  passwordHashed String
+  name           String?
+  urls           Url[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
 }

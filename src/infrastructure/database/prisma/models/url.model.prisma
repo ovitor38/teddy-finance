@@ -1,7 +1,7 @@
-model Task {
+model Url {
   id        String   @id @default(uuid())
-  title     String
-  finished  Boolean  @default(false)
+  shortId   String
+  clicks    Int
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   createdAt DateTime @default(now())
