@@ -1,11 +1,1 @@
 npx lint-staged
-
-BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-
-if [ "$BRANCH_NAME" = "main" ]; then
-  echo "Incrementing Minor version on main branch..."
-  npx standard-version --release-as minor
-  git push --follow-tags origin main
-else
-  echo "Skipping version bump for branch $BRANCH_NAME"
-fi
