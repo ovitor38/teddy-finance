@@ -1,4 +1,4 @@
-import { UserResponseDTO } from '../../presentation/dtos/user/user.dto'
+import { UserResponseDTO } from '../../presentation/dtos/user.dto'
 import { User } from '../entities/user/user.entity'
 
 export interface IUserRepository {

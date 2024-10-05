@@ -2,8 +2,8 @@ import { injectable, inject } from 'tsyringe'
 import { UserService } from '../../application/services/user.service'
 import { IAuthService } from '../../application/interfaces/auth.interface'
 import { verifyPassword } from '../../shared/utils/encrypter'
-import { LoginRequestDto } from '../dtos/user/auth.dto'
-import { IHttpResponse } from '../dtos/user/http.dto'
+import { LoginRequestDto } from '../dtos/auth.dto'
+import { IHttpResponse } from '../dtos/http.dto'
 
 @injectable()
 export class AuthController {

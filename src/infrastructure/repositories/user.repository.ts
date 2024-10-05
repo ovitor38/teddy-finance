@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import { User } from '../../enterprise/entities/user/user.entity'
 import { IUserRepository } from '../../enterprise/repositories/user.repository'
 import prisma from '../database/prisma/client'
-import { UserResponseDTO } from '../../presentation/dtos/user/user.dto'
+import { UserResponseDTO } from '../../presentation/dtos/user.dto'
 
 export class PrimsaUserRepository implements IUserRepository {
   async save(userData: Prisma.UserCreateInput): Promise<UserResponseDTO> {

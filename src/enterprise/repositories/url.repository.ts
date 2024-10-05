@@ -1,6 +1,8 @@
+import { Url } from '../entities/user/url.entity'
+
 export interface IUrlRepository {
-  save(url: string): unknown
-  getAll(userId: string): unknown
-  update(urlId: string, completeUrl: string): unknown
-  softDelete(urlId: string): unknown
+  save(completeUrl: string, id: string, userId: string): Promise<Url>
+  getAll(id: string): Promise<Url[] | []>
+  update(id: string, completeUrl: string): unknown
+  softDelete(id: string):  Promise<void> 
 }

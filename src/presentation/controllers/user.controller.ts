@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe'
-import { CreateUserRequestDTO } from '../dtos/user/user.dto'
+import { CreateUserRequestDTO } from '../dtos/user.dto'
 import { UserService } from '../../application/services/user.service'
 
 @injectable()

@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe'
 import {
   CreateUserRequestDTO,
   UserResponseDTO
-} from '../../presentation/dtos/user/user.dto'
+} from '../../presentation/dtos/user.dto'
 import { hashPassword } from '../../shared/utils/encrypter'
 import { IUserRepository } from '../../enterprise/repositories/user.repository'
 import { User } from '../../enterprise/entities/user/user.entity'
