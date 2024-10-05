@@ -25,6 +25,8 @@ import { AuthControllerHttp } from '../../infrastructure/http/controllers/auth.c
 
 
 import { AuthMiddleware } from '../../middlewares/auth.middleware'
+import { ICache } from '../../enterprise/repositories/cache.repository'
+import { NodeCacheService } from '../../infrastructure/repositories/cache.repository'
 
 //Repositories
 container.registerSingleton<IUserRepository>(
@@ -50,3 +52,6 @@ container.register('UrlController', UrlController)
 container.register('UserControllerHttp', UserControllerHttp)
 container.register('AuthControllerHttp', AuthControllerHttp)
 
+container.register<ICache>('Cache', {
+  useClass: NodeCacheService,
+});
