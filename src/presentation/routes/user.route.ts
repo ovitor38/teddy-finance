@@ -5,6 +5,6 @@ import { UserControllerHttp } from "../../infrastructure/http/controllers/user.c
 export function userRoutes(app: Router): void {
   const userController = container.resolve(UserControllerHttp);
 
-  app.post("/user", (req, res) => userController.create(req, res));
+  app.post("/api/user", (req, res) => userController.create(req, res));
 }
 

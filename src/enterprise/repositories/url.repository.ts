@@ -4,5 +4,7 @@ export interface IUrlRepository {
   save(completeUrl: string, id: string, userId: string): Promise<Url>
   getAll(id: string): Promise<Url[] | []>
   update(id: string, completeUrl: string): unknown
-  softDelete(id: string):  Promise<void> 
+  softDelete(id: string):  Promise<void>
+  incrementClick(id: string): Promise<void>
+  findById(id: string): Promise<Url | null>
 }

@@ -3,16 +3,10 @@ import { IUrlRepository } from '../../enterprise/repositories/url.repository'
 import prisma from '../database/prisma/client'
 
 export class PrismaUrlRepository implements IUrlRepository {
-  async save(
-    completeUrl: string,
-    id: string,
-    userId: string
-  ): Promise<Url> {
+  async save(completeUrl: string, id: string, userId: string): Promise<Url> {
     return await prisma.url.create({
       data: { completeUrl, id, userId, clicks: 0 }
     })
-
-
   }
   async getAll(userId: string): Promise<Url[] | []> {
     const urlList = await prisma.url.findMany({
@@ -32,6 +26,22 @@ export class PrismaUrlRepository implements IUrlRepository {
         )
     )
   }
+
+  async incrementClick(id: string): Promise<void> {
+    await prisma.url.update({
+      where: { id, deletedAt: null },
+      data: {
+        clicks: {
+          increment: 1
+        }
+      }
+    })
+  }
+
+  async findById(id: string): Promise<Url | null> {
+    return prisma.url.findFirst({ where: { id } })
+  }
+
   async update(id: string, completeUrl: string): Promise<Url> {
     return await prisma.url.update({
       where: { deletedAt: null, id },

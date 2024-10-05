@@ -36,7 +36,16 @@ export class UrlController {
     try {
       const shortenedUrl = await this.urlService.create(createShortRequestDto)
       return { statusCode: 201, data: shortenedUrl }
+    } catch (error: any) {
+      return { statusCode: 400, data: { error: error.message } }
+    }
+  }
 
+  async redirect(request: any) {
+    try {
+      const { id } = request.params
+      const url = await this.urlService.incrementClick(id)
+      return { statusCode: 200, data: url }
     } catch (error: any) {
       return { statusCode: 400, data: { error: error.message } }
     }
