@@ -18,12 +18,16 @@ import { AuthController } from '../../presentation/controllers/auth.controller'
 //Infra Controller Imports
 import { UserControllerHttp } from '../../infrastructure/http/controllers/user.controller'
 import { AuthControllerHttp } from '../../infrastructure/http/controllers/auth.controller'
+import { AuthMiddleware } from '../../middlewares/auth.middleware'
 
 //Repositories
 container.registerSingleton<IUserRepository>(
   'UserRepository',
   PrimsaUserRepository
 )
+
+//Middlewares
+container.register('AuthMiddleware', AuthMiddleware)
 
 //Services
 container.register('UserService', UserService)
@@ -36,3 +40,4 @@ container.register('AuthController', AuthController)
 //Infra Controller
 container.register('UserControllerHttp', UserControllerHttp)
 container.register('AuthControllerHttp', AuthControllerHttp)
+

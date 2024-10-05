@@ -4,7 +4,7 @@ import { IAuthService } from '../application/interfaces/auth.interface';
 
 @injectable()
 export class AuthMiddleware {
-  constructor(@inject('IAuthService') private authService: IAuthService) {}
+  constructor(@inject('AuthService') private authService: IAuthService) {}
 
   handle(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
