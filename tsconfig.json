@@ -11,6 +11,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["src/**/*.ts","commitlint.config.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

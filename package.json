@@ -31,8 +31,9 @@
   "scripts": {
     "prisma:migrate": "PRISMA_SCHEMA_PATH=./src/infrastructure/database/prisma/schema.prisma npx prisma migrate dev",
     "lint": "eslint --fix && prettier . --write",
-    "start": "ts-node --watch src/index.ts",
-    "start:dev": "ts-node-dev --respawn --transpile-only --watch src src/server.ts"
+    "start": "node --watch server.js",
+    "start:dev": "ts-node-dev --respawn --transpile-only --watch src src/server.ts",
+    "build": "tsc"    
   },
   "dependencies": {
     "@prisma/client": "5.18.0",

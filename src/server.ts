@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import app from './index'
 import dotenv from 'dotenv'
 import { routes } from './presentation/routes'
-import '../src/shared/containers'
+import './shared/containers'
 import { errorMiddleware } from './middlewares/error.middleware'
 
 dotenv.config()
