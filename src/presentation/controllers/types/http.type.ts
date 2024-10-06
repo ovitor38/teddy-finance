@@ -1,4 +1,6 @@
 import { Request, Response } from 'express'
 
-export type HttpRequest = Request
+export interface HttpRequest extends Request{
+    user:string
+}
 export type HttpResponse = Response
