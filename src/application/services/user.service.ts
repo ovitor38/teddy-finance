@@ -6,9 +6,10 @@ import {
 import { hashPassword } from '../../shared/utils/encrypter'
 import { IUserRepository } from '../../enterprise/repositories/user.repository'
 import { User } from '../../enterprise/entities/user/user.entity'
+import { IUSerService } from '../interfaces/user.interface'
 
 @injectable()
-export class UserService {
+export class UserService implements IUSerService {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository
   ) {}
