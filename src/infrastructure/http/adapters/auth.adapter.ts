@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express'
 import { inject, injectable } from 'tsyringe'
-import { AuthController } from '../../../presentation/controllers/auth.controller'
+import { IAuthController } from '../../../presentation/controllers/interfaces/auth.interface'
 
 @injectable()
 export class AuthControllerHttp {
   constructor(
-    @inject('AuthController') private readonly authController: AuthController
+    @inject('AuthController') private readonly authController: IAuthController
   ) {}
 
   async login(

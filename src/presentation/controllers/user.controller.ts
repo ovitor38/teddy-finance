@@ -4,9 +4,10 @@ import { IUSerService } from '../../application/interfaces/user.interface'
 import { HttpRequest } from './types/http.type'
 import { IHttpResponse } from '../dtos/http.dto'
 import { IErrorResponse } from '../../shared/errors/error.response'
+import { IUserController } from './interfaces/user.interface'
 
 @injectable()
-export class UserController {
+export class UserController implements IUserController {
   constructor(
     @inject('UserService')
     private readonly userService: IUSerService
@@ -29,8 +30,7 @@ export class UserController {
       const user = await this.userService.create(createUserDto)
       return { statusCode: 201, data: user }
     } catch (error: any) {
-      
-      throw{
+      throw {
         statusCode: 400,
         error: error || 'An unexpected error occurred'
       }

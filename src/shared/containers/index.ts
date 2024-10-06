@@ -29,6 +29,9 @@ import { NodeCacheService } from '../../infrastructure/repositories/cache.reposi
 import { IUSerService } from '../../application/interfaces/user.interface'
 import { UserHttpAdapter } from '../../infrastructure/http/adapters/user.adapter'
 import { IUrlService } from '../../application/interfaces/url.interface'
+import { IUserController } from '../../presentation/controllers/interfaces/user.interface'
+import { IAuthController } from '../../presentation/controllers/interfaces/auth.interface'
+import { IUrlController } from '../../presentation/controllers/interfaces/url.interface'
 
 //Repositories
 container.registerSingleton<IUserRepository>(
@@ -46,9 +49,9 @@ container.register<IAuthService>('AuthService', AuthService)
 container.register<IUrlService>('UrlService',UrlService)
 
 //Presentation Controller
-container.register('UserController', UserController)
-container.register('AuthController', AuthController)
-container.register('UrlController', UrlController)
+container.register<IUserController>('UserController', UserController)
+container.register<IAuthController>('AuthController', AuthController)
+container.register<IUrlController>('UrlController', UrlController)
 
 //Infra Adapters
 container.register('UserHttpAdapter', UserHttpAdapter)

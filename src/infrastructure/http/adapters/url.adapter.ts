@@ -1,12 +1,12 @@
 import { inject, injectable } from 'tsyringe'
-import { UrlController } from '../../../presentation/controllers/url.controller'
 import { Request, Response } from 'express'
 import { NextFunction } from 'express-serve-static-core'
+import { IUrlController } from '../../../presentation/controllers/interfaces/url.interface'
 
 @injectable()
 export class UrlControllerHttp {
   constructor(
-    @inject('UrlController') private readonly urlController: UrlController
+    @inject('UrlController') private readonly urlController: IUrlController
   ) {}
 
   async create(

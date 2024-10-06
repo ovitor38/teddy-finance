@@ -4,9 +4,10 @@ import { IAuthService } from '../../application/interfaces/auth.interface'
 import { verifyPassword } from '../../shared/utils/encrypter'
 import { LoginRequestDto } from '../dtos/auth.dto'
 import { IHttpResponse } from '../dtos/http.dto'
+import { IAuthController } from './interfaces/auth.interface'
 
 @injectable()
-export class AuthController {
+export class AuthController implements IAuthController {
   constructor(
     @inject('AuthService') private authService: IAuthService,
     @inject('UserService') private userService: UserService
@@ -26,10 +27,7 @@ export class AuthController {
 
     const user = await this.userService.findByEmail(email)
 
-    if (
-      !user ||
-      !(await verifyPassword(user?.passwordHashed, password))
-    ) {
+    if (!user || !(await verifyPassword(user?.passwordHashed, password))) {
       return { statusCode: 401, data: { message: 'Invalid email or password' } }
     }
 
