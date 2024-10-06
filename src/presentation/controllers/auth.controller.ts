@@ -19,16 +19,15 @@ export class AuthController implements IAuthController {
     const { email, password } = loginDto
 
     if (!email || !password) {
-      return {
-        statusCode: 400,
-        data: { message: 'Email and password are required' }
+      throw {
+        error: { statusCode: 400, message: 'Email and password are required' }
       }
     }
 
     const user = await this.userService.findByEmail(email)
 
     if (!user || !(await verifyPassword(user?.passwordHashed, password))) {
-      return { statusCode: 401, data: { message: 'Invalid email or password' } }
+      throw { error: { message: 'Invalid email or password', statusCode: 401 } }
     }
 
     const token = this.authService.generateToken(user.id)

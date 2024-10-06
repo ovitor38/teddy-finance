@@ -15,11 +15,9 @@ export function errorMiddleware(
         const field = Array.isArray(err.meta?.target)
           ? err.meta.target.join(', ')
           : 'um ou mais campos'
-        return res
-          .status(400)
-          .json({
-            message: `Um recurso com este(s) campo(s): ${field}, já existe.`
-          })
+        return res.status(400).json({
+          message: `Um recurso com este(s) campo(s): ${field}, já existe.`
+        })
       }
 
       case PrismaErrorCodes.RECORD_NOT_FOUND: {
@@ -31,6 +29,8 @@ export function errorMiddleware(
       }
     }
   }
-
+  if (err.statusCode && err.message) {
+    return res.status(err.statusCode).json({ message: err.message })
+  }
   return res.status(500).json({ message: 'Um erro inesperado ocorreu.' })
 }

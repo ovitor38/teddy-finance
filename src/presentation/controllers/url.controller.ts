@@ -114,6 +114,8 @@ export class UrlController implements IUrlController {
       const result = await this.urlService.delete(id, userId)
       return { statusCode: 200, data: result }
     } catch (error: any) {
+      console.log(error);
+      
       throw {
         statusCode: 400,
         error: error || 'An unexpected error occurred'
