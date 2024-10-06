@@ -42,15 +42,15 @@ export class PrismaUrlRepository implements IUrlRepository {
     return await prisma.url.findFirst({ where: { id } })
   }
 
-  async update(id: string, completeUrl: string): Promise<Url> {
+  async update(id: string, completeUrl: string, userId: string): Promise<Url> {
     return await prisma.url.update({
-      where: { deletedAt: null, id },
+      where: { deletedAt: null, id, userId },
       data: { completeUrl }
     })
   }
-  async softDelete(id: string): Promise<void> {
+  async softDelete(id: string, userId: string): Promise<void> {
     await prisma.url.update({
-      where: { id },
+      where: { id, userId },
       data: { deletedAt: new Date() }
     })
   }

@@ -6,6 +6,6 @@ export interface IUrlService {
   create(urlDto: CreateShortRequestDto): Promise<string | IguestUrlRegister>
   incrementClick(id: string): Promise<string | null>
   getAll(userId: string): Promise<Promise<Url[] | []>>
-  update(id: string, completeUrl: string): Promise<Url>
-  delete(id: string): Promise<string>
+  update(id: string, completeUrl: string, userId:string): Promise<Url>
+  delete(id: string, userId:string): Promise<string>
 }

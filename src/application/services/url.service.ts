@@ -65,12 +65,12 @@ export class UrlService implements IUrlService {
     return await this.urlRepository.getAll(userId)
   }
 
-  async update(id: string, completeUrl: string): Promise<Url> {
-    return await this.urlRepository.update(id, completeUrl)
+  async update(id: string, completeUrl: string, userId: string): Promise<Url> {
+    return await this.urlRepository.update(id, completeUrl, userId)
   }
 
-  async delete(id: string): Promise<string> {
-    await this.urlRepository.softDelete(id)
+  async delete(id: string, userId: string): Promise<string> {
+    await this.urlRepository.softDelete(id, userId)
     return 'ShortedUrl deleted successfully'
   }
 }
