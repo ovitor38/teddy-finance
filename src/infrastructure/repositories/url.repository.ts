@@ -39,7 +39,7 @@ export class PrismaUrlRepository implements IUrlRepository {
   }
 
   async findById(id: string): Promise<Url | null> {
-    return prisma.url.findFirst({ where: { id } })
+    return await prisma.url.findFirst({ where: { id } })
   }
 
   async update(id: string, completeUrl: string): Promise<Url> {

@@ -20,13 +20,15 @@ import { AuthController } from '../../presentation/controllers/auth.controller'
 import { UrlController } from '../../presentation/controllers/url.controller'
 
 //Infra Controller Imports
-import { UserControllerHttp } from '../../infrastructure/http/controllers/user.controller'
-import { AuthControllerHttp } from '../../infrastructure/http/controllers/auth.controller'
+import { AuthControllerHttp } from '../../infrastructure/http/adapters/auth.adapter'
 
 
 import { AuthMiddleware } from '../../middlewares/auth.middleware'
 import { ICache } from '../../enterprise/repositories/cache.repository'
 import { NodeCacheService } from '../../infrastructure/repositories/cache.repository'
+import { IUSerService } from '../../application/interfaces/user.interface'
+import { UserHttpAdapter } from '../../infrastructure/http/adapters/user.adapter'
+import { IUrlService } from '../../application/interfaces/url.interface'
 
 //Repositories
 container.registerSingleton<IUserRepository>(
@@ -39,17 +41,17 @@ container.registerSingleton<IUrlRepository>('UrlRepository', PrismaUrlRepository
 container.register('AuthMiddleware', AuthMiddleware)
 
 //Services
-container.register('UserService', UserService)
+container.register<IUSerService>('UserService', UserService)
 container.register<IAuthService>('AuthService', AuthService)
-container.register('UrlService',UrlService)
+container.register<IUrlService>('UrlService',UrlService)
 
 //Presentation Controller
 container.register('UserController', UserController)
 container.register('AuthController', AuthController)
 container.register('UrlController', UrlController)
 
-//Infra Controller
-container.register('UserControllerHttp', UserControllerHttp)
+//Infra Adapters
+container.register('UserHttpAdapter', UserHttpAdapter)
 container.register('AuthControllerHttp', AuthControllerHttp)
 
 container.register<ICache>('Cache', {
