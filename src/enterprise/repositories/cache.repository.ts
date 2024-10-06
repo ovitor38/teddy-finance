@@ -1,5 +1,5 @@
 export interface ICache {
-    set<T>(key: string, value: T, ttl: number): void;
+    set<T>(key: string, value: T): void;
     get<T>(key: string): T | null;
   }
   

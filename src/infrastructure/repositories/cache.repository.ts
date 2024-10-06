@@ -5,12 +5,11 @@ export class NodeCacheService implements ICache {
   private cache: NodeCache;
 
   constructor() {
-    // Time to live (TTL) em segundos - 600 segundos = 10 minutos
     this.cache = new NodeCache({ stdTTL: 600 });
   }
 
-  set<T>(key: string, value: T, ttl: number = 600): void {
-    this.cache.set(key, value, ttl);
+  set<T>(key: string, value: T): void {
+    this.cache.set(key, value, 600);
   }
 
   get<T>(key: string): T | null {

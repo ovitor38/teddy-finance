@@ -38,7 +38,7 @@ export class UrlService implements IUrlService {
       updatedAt: new Date()
     }
 
-    this.cache.set(id, guestUrlRegister, 600)
+    this.cache.set(id, guestUrlRegister)
     return `http://localhost:${port}/${id}`
   }
 
@@ -49,13 +49,13 @@ export class UrlService implements IUrlService {
       cachedUrl.clicks += 1
       cachedUrl.updatedAt = new Date()
 
-      this.cache.set(id, cachedUrl, 600)
+      this.cache.set(id, cachedUrl)
       return cachedUrl.completeUrl
     }
 
     const urlModel = await this.urlRepository.findById(id)
 
-    if(!urlModel) return null
+    if (!urlModel) return null
 
     await this.urlRepository.incrementClick(id)
     return urlModel?.completeUrl
