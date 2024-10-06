@@ -23,7 +23,7 @@ export function errorMiddleware(
       }
 
       case PrismaErrorCodes.RECORD_NOT_FOUND: {
-        return res.status(404).json({ message: 'Recurso não encontrado.' })
+        return res.status(404).json({ message: 'Registro não encontrado.' })
       }
 
       default: {

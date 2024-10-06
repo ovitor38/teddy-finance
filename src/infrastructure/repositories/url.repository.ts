@@ -50,7 +50,7 @@ export class PrismaUrlRepository implements IUrlRepository {
   }
   async softDelete(id: string, userId: string): Promise<void> {
     await prisma.url.update({
-      where: { id, userId },
+      where: { id, userId, deletedAt: null },
       data: { deletedAt: new Date() }
     })
   }

@@ -50,7 +50,7 @@ export class UrlController implements IUrlController {
     } catch (error: any) {
       throw {
         statusCode: 400,
-        message: error.message || 'An unexpected error occurred'
+        error: error || 'An unexpected error occurred'
       }
     }
   }
@@ -65,7 +65,7 @@ export class UrlController implements IUrlController {
     } catch (error: any) {
       throw {
         statusCode: 400,
-        message: error.message || 'An unexpected error occurred'
+        error: error || 'An unexpected error occurred'
       }
     }
   }
@@ -81,7 +81,7 @@ export class UrlController implements IUrlController {
     } catch (error: any) {
       throw {
         statusCode: 400,
-        message: error.message || 'An unexpected error occurred'
+        error: error || 'An unexpected error occurred'
       }
     }
   }
@@ -99,7 +99,7 @@ export class UrlController implements IUrlController {
     } catch (error: any) {
       throw {
         statusCode: 400,
-        message: error.message
+        error: error || 'An unexpected error occurred'
       }
     }
   }
@@ -110,13 +110,13 @@ export class UrlController implements IUrlController {
     try {
       const { id } = request.params
       const userId = request.user || ''
-      
+
       const result = await this.urlService.delete(id, userId)
       return { statusCode: 200, data: result }
     } catch (error: any) {
       throw {
         statusCode: 400,
-        message: error.message
+        error: error || 'An unexpected error occurred'
       }
     }
   }
