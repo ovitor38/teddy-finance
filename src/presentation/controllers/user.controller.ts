@@ -1,32 +1,39 @@
 import { inject, injectable } from 'tsyringe'
-import { CreateUserRequestDTO } from '../dtos/user.dto'
-import { UserService } from '../../application/services/user.service'
+import { CreateUserRequestDTO, UserResponseDTO } from '../dtos/user.dto'
+import { IUSerService } from '../../application/interfaces/user.interface'
+import { HttpRequest } from './types/http.type'
+import { IHttpResponse } from '../dtos/http.dto'
+import { IErrorResponse } from '../../shared/errors/error.response'
 
 @injectable()
 export class UserController {
   constructor(
     @inject('UserService')
-    private readonly userService: UserService
+    private readonly userService: IUSerService
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async createUser(request: any) {
+  async createUser(
+    request: HttpRequest
+  ): Promise<IHttpResponse<UserResponseDTO | IErrorResponse>> {
     try {
       //TODO: VALIDATE DTO WITH ZOD
       // if (!requestIsValid) {
       // throw new Error('Not Valid Request')
       // }
       const createUserDto: CreateUserRequestDTO = {
-        name: request.name,
-        email: request.email,
-        password: request.password
+        name: request.body.name,
+        email: request.body.email,
+        password: request.body.password
       }
 
       const user = await this.userService.create(createUserDto)
       return { statusCode: 201, data: user }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      return { statusCode: 400, data: { messageError: error.message } }
+      
+      throw{
+        statusCode: 400,
+        error: error || 'An unexpected error occurred'
+      }
     }
   }
 }

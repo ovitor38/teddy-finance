@@ -1,53 +1,59 @@
-import { inject, injectable } from 'tsyringe'
-import { UrlService } from '../../application/services/url.service'
-import { CreateShortRequestDto } from '../dtos/url.dto'
-import { AuthService } from '../../application/services/jwtAuth.service'
+import { inject, injectable } from 'tsyringe';
+import { CreateShortRequestDto } from '../dtos/url.dto';
+import { IUrlService } from '../../application/interfaces/url.interface';
+import { IAuthService } from '../../application/interfaces/auth.interface';
+import { HttpRequest } from './types/http.type';
+import { IErrorResponse } from '../../shared/errors/error.response';
+import { IguestUrlRegister } from '../../enterprise/repositories/cache.repository';
+import { IHttpResponse } from '../dtos/http.dto';
 
 @injectable()
 export class UrlController {
   constructor(
-    @inject('UrlService') private readonly urlService: UrlService,
-    @inject('AuthService') private readonly authService: AuthService
+    @inject('UrlService') private readonly urlService: IUrlService,
+    @inject('AuthService') private readonly authService: IAuthService
   ) {}
 
-  async createShortenUrl(request: any): Promise<unknown> {
-    const authHeader = request.headers.authorization
-    let decoded: any
+  async createShortenUrl(
+    request: HttpRequest
+  ): Promise<IHttpResponse<string | IguestUrlRegister | IErrorResponse>> {
+    const authHeader = request.headers.authorization;
+    let decoded: any;
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split(' ')[1]
+      const token = authHeader.split(' ')[1];
 
       try {
-        decoded = this.authService.verifyToken(token)
+        decoded = this.authService.verifyToken(token);
       } catch (error: any) {
-        return { statusCode: 401, data: { error: 'Invalid or expired token.' } }
+        throw { statusCode: 401, message: error.message || 'Invalid or expired token' };
       }
     }
 
     if (!request.body.completeUrl) {
-      return { statusCode: 400, data: { error: 'Complete URL is required.' } }
+      throw { statusCode: 400, message: 'Complete URL is required' };
     }
 
     const createShortRequestDto: CreateShortRequestDto = {
       completeUrl: request.body.completeUrl,
-      userId: decoded?.userId || null
-    }
+      userId: decoded?.userId || null,
+    };
 
     try {
-      const shortenedUrl = await this.urlService.create(createShortRequestDto)
-      return { statusCode: 201, data: shortenedUrl }
+      const shortenedUrl = await this.urlService.create(createShortRequestDto);
+      return { statusCode: 201, data: shortenedUrl };
     } catch (error: any) {
-      return { statusCode: 400, data: { error: error.message } }
+      throw { statusCode: 400, message: error.message || 'An unexpected error occurred' };
     }
   }
 
-  async redirect(request: any) {
+  async redirect(request: HttpRequest): Promise<IHttpResponse<string | IErrorResponse | null>> {
     try {
       const { id } = request.params
       const url = await this.urlService.incrementClick(id)
       return { statusCode: 200, data: url }
     } catch (error: any) {
-      return { statusCode: 400, data: { error: error.message } }
+      throw { statusCode: 400, message: error.message || 'An unexpected error occurred' };
     }
   }
 }
