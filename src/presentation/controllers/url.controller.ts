@@ -74,7 +74,7 @@ export class UrlController implements IUrlController {
     request: HttpRequest
   ): Promise<IHttpResponse<Url[] | IErrorResponse>> {
     try {
-      const userId = request.user
+      const userId = request.user || ''
 
       const urlList = await this.urlService.getAll(userId)
       return { statusCode: 200, data: urlList }
@@ -91,8 +91,10 @@ export class UrlController implements IUrlController {
   ): Promise<IHttpResponse<Url | IErrorResponse>> {
     try {
       const { id } = request.params
+      const userId = request.user || ''
       const { completeUrl } = request.body
-      const url = await this.urlService.update(id, completeUrl)
+
+      const url = await this.urlService.update(id, completeUrl, userId)
       return { statusCode: 200, data: url }
     } catch (error: any) {
       throw {
@@ -107,7 +109,9 @@ export class UrlController implements IUrlController {
   ): Promise<IHttpResponse<string | IErrorResponse>> {
     try {
       const { id } = request.params
-      const result = await this.urlService.delete(id)
+      const userId = request.user || ''
+      
+      const result = await this.urlService.delete(id, userId)
       return { statusCode: 200, data: result }
     } catch (error: any) {
       throw {

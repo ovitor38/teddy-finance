@@ -26,11 +26,52 @@ export class UrlControllerHttp {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response | undefined> {
+  ): Promise<void | undefined> {
     try {
       const result = await this.urlController.redirect(req)
-      return res.redirect(`http://${result.data}`)
+      if (result.data) {
+        res.redirect(`http://${result.data}`)
+      }
     } catch (error: any) {
+      next(error.error)
+    }
+  }
+
+  async getAll(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | undefined> {
+    try {
+      const result = await this.urlController.getAll(req)
+      return res.status(result.statusCode).json(result.data)
+    } catch (error: any) {
+      next(error.error)
+    }
+  }
+
+  async update(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | undefined> {
+    try {
+      const result = await this.urlController.update(req)
+      return res.status(result.statusCode).json(result.data)
+    } catch (error:any) {
+      next(error.error)
+    }
+  }
+
+  async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | undefined> {
+    try {
+      const result = await this.urlController.delete(req)
+      return res.status(result.statusCode).json(result.data)
+    } catch (error:any) {
       next(error.error)
     }
   }
