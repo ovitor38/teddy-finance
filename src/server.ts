@@ -1,8 +1,9 @@
 import 'reflect-metadata'
-import app from './index'
 import dotenv from 'dotenv'
-import { routes } from './presentation/routes'
 import './shared/containers'
+
+import app from './index'
+import { routes } from './presentation/routes'
 import { errorMiddleware } from './middlewares/error.middleware'
 
 dotenv.config()
