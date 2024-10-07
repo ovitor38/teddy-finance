@@ -5,6 +5,7 @@ import { HttpRequest } from './types/http.type'
 import { IHttpResponse } from '../dtos/http.dto'
 import { IErrorResponse } from '../../shared/errors/error.response'
 import { IUserController } from './interfaces/user.interface'
+import { createUserSchema } from '../schemas/user.schema'
 
 @injectable()
 export class UserController implements IUserController {
@@ -17,14 +18,17 @@ export class UserController implements IUserController {
     request: HttpRequest
   ): Promise<IHttpResponse<UserResponseDTO | IErrorResponse>> {
     try {
-      //TODO: VALIDATE DTO WITH ZOD
-      // if (!requestIsValid) {
-      // throw new Error('Not Valid Request')
-      // }
+      
       const createUserDto: CreateUserRequestDTO = {
         name: request.body.name,
         email: request.body.email,
         password: request.body.password
+      }
+
+      const parsedData = createUserSchema.safeParse(createUserDto)
+
+      if (!parsedData.success) {
+        throw { statusCode: 400, message: parsedData.error.issues[0].message}        
       }
 
       const user = await this.userService.create(createUserDto)

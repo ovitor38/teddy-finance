@@ -30,7 +30,7 @@ export class UrlControllerHttp {
     try {
       const result = await this.urlController.redirect(req)
       if (result.data) {
-        res.redirect(`http://${result.data}`)
+        res.redirect(`${result.data}`)
       }
     } catch (error: any) {
       next(error.error)

@@ -1,13 +1,17 @@
 import { inject, injectable } from 'tsyringe'
 import { IUrlRepository } from '../../enterprise/repositories/url.repository'
 import { randomBytes } from 'crypto'
-import { CreateShortRequestDto } from '../../presentation/dtos/url.dto'
 import {
   ICache,
   IguestUrlRegister
 } from '../../enterprise/repositories/cache.repository'
 import { IUrlService } from '../interfaces/url.interface'
 import { Url } from '../../enterprise/entities/user/url.entity'
+import {
+  ICreateUrlRequestDto,
+  IDeleteUrlRequestDto,
+  IUpdateUrlRequestDto
+} from '../../presentation/dtos/url.dto'
 
 @injectable()
 export class UrlService implements IUrlService {
@@ -17,7 +21,7 @@ export class UrlService implements IUrlService {
   ) {}
 
   async create(
-    urlDto: CreateShortRequestDto
+    urlDto: ICreateUrlRequestDto
   ): Promise<string | IguestUrlRegister> {
     const port = process.env.PORT || 3000
     const id = randomBytes(4)
@@ -65,11 +69,14 @@ export class UrlService implements IUrlService {
     return await this.urlRepository.getAll(userId)
   }
 
-  async update(id: string, completeUrl: string, userId: string): Promise<Url> {
+  async update(updateUrlRequestDto: IUpdateUrlRequestDto): Promise<Url> {
+    const { id, completeUrl, userId } = updateUrlRequestDto
+
     return await this.urlRepository.update(id, completeUrl, userId)
   }
 
-  async delete(id: string, userId: string): Promise<string> {
+  async delete(deleteUrlRequestDto: IDeleteUrlRequestDto): Promise<string> {
+    const { id, userId } = deleteUrlRequestDto
     await this.urlRepository.softDelete(id, userId)
     return 'ShortedUrl deleted successfully'
   }

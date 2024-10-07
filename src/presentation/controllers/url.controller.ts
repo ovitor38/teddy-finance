@@ -1,5 +1,4 @@
 import { inject, injectable } from 'tsyringe'
-import { CreateShortRequestDto } from '../dtos/url.dto'
 import { IUrlService } from '../../application/interfaces/url.interface'
 import { IAuthService } from '../../application/interfaces/auth.interface'
 import { HttpRequest } from './types/http.type'
@@ -8,6 +7,16 @@ import { IguestUrlRegister } from '../../enterprise/repositories/cache.repositor
 import { IHttpResponse } from '../dtos/http.dto'
 import { IUrlController } from './interfaces/url.interface'
 import { Url } from '../../enterprise/entities/user/url.entity'
+import {
+  createUrlSchema,
+  deleteUrlSchema,
+  updateUrlSchema
+} from '../schemas/urls.schema'
+import {
+  ICreateUrlRequestDto,
+  IDeleteUrlRequestDto,
+  IUpdateUrlRequestDto
+} from '../dtos/url.dto'
 
 @injectable()
 export class UrlController implements IUrlController {
@@ -29,19 +38,28 @@ export class UrlController implements IUrlController {
         decoded = this.authService.verifyToken(token)
       } catch (error: any) {
         throw {
-          statusCode: 401,
-          message: error.message || 'Invalid or expired token'
+          error: {
+            statusCode: 401,
+            message: error.message || 'Invalid or expired token'
+          }
         }
       }
     }
 
-    if (!request.body.completeUrl) {
-      throw { statusCode: 400, message: 'Complete URL is required' }
-    }
-
-    const createShortRequestDto: CreateShortRequestDto = {
+    const createShortRequestDto: ICreateUrlRequestDto = {
       completeUrl: request.body.completeUrl,
       userId: decoded?.userId || null
+    }
+
+    const parsedData = createUrlSchema.safeParse(createShortRequestDto)
+
+    if (!parsedData.success) {
+      throw {
+        error: {
+          statusCode: 400,
+          message: `field ${parsedData.error.issues[0].path} - ${parsedData.error.issues[0].message}`
+        }
+      }
     }
 
     try {
@@ -93,8 +111,22 @@ export class UrlController implements IUrlController {
       const { id } = request.params
       const userId = request.user || ''
       const { completeUrl } = request.body
+      const updateUrlDto: IUpdateUrlRequestDto = {
+        id,
+        completeUrl,
+        userId
+      }
 
-      const url = await this.urlService.update(id, completeUrl, userId)
+      const parsedData = updateUrlSchema.safeParse(updateUrlDto)
+
+      if (!parsedData.success) {
+        throw {
+          statusCode: 400,
+          message: `field ${parsedData.error.issues[0].path} - ${parsedData.error.issues[0].message}`
+        }
+      }
+
+      const url = await this.urlService.update(updateUrlDto)
       return { statusCode: 200, data: url }
     } catch (error: any) {
       throw {
@@ -111,11 +143,23 @@ export class UrlController implements IUrlController {
       const { id } = request.params
       const userId = request.user || ''
 
-      const result = await this.urlService.delete(id, userId)
+      const deleteUrlRequestDto: IDeleteUrlRequestDto = {
+        id,
+        userId
+      }
+
+      const parsedData = deleteUrlSchema.safeParse(deleteUrlRequestDto)
+
+      if (!parsedData.success) {
+        throw {
+          statusCode: 400,
+          message: `field ${parsedData.error.issues[0].path} - ${parsedData.error.issues[0].message}`
+        }
+      }
+
+      const result = await this.urlService.delete(deleteUrlRequestDto)
       return { statusCode: 200, data: result }
     } catch (error: any) {
-      console.log(error);
-      
       throw {
         statusCode: 400,
         error: error || 'An unexpected error occurred'

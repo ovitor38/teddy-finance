@@ -11,14 +11,8 @@ export class AuthService implements IAuthService {
   }
 
   verifyToken(token: string): { userId: string } | null {
-    try {
-      const decoded = jwt.verify(token, this.jwtSecret) as { userId: string }
-      return { userId: decoded.userId }
-    } catch (err) {
-      console.log(err)
-
-      return null
-    }
+    const decoded = jwt.verify(token, this.jwtSecret) as { userId: string };
+    return { userId: decoded.userId };
   }
 
   generateToken(userId: string): string {
