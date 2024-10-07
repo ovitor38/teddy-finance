@@ -14,6 +14,7 @@ COPY . .
 
 # Compila o TypeScript
 RUN npm run build
+RUN PRISMA_SCHEMA_PATH=./src/infrastructure/database/prisma/schema.prisma npx prisma db pull
 
 # Expõe a porta da aplicação (caso esteja rodando na porta 3000, por exemplo)
 EXPOSE 3000
