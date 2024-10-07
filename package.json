@@ -38,7 +38,7 @@
     "start": "node --watch server.js",
     "start:dev": "ts-node-dev --respawn --transpile-only --watch src src/server.ts",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@prisma/client": "5.18.0",

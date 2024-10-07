@@ -1,16 +1,12 @@
 import { string, z } from 'zod'
 
 export const createUrlSchema = z.object({
-  completeUrl: z
-    .string({ required_error: 'Complete is required' })
-    .url({ message: 'Invalid Url' }),
+  completeUrl: z.string().url(),
   userId: string().optional().nullable()
 })
 
 export const updateUrlSchema = z.object({
-  completeUrl: z
-    .string({ required_error: 'Complete is required' })
-    .url({ message: 'Invalid Url' }),
+  completeUrl: z.string().url(),
   userId: z.string().uuid(),
   id: z.string().length(6)
 })
